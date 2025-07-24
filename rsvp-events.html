@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Events RSVP'd For - DropBy</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-image: url('images/DropBy-Background.png');
+      background-size: cover;
+      background-attachment: fixed;
+      background-position: center;
+      color: white;
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: rgba(0, 0, 0, 0.7);
+      padding: 10px 20px;
+    }
+
+    .logo {
+      height: 50px;
+    }
+
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      margin-left: 20px;
+      font-size: 16px;
+      padding: 6px 12px;
+      border-radius: 5px;
+    }
+
+    .nav-links a.active {
+      background-color: #007bff;
+      color: white;
+    }
+
+    .nav-links a:hover:not(.active) {
+      text-decoration: underline;
+    }
+
+    .rsvp-content {
+      padding: 60px 20px;
+      text-align: center;
+    }
+
+    .rsvp-content h2 {
+      font-size: 36px;
+      margin-bottom: 20px;
+    }
+
+    .rsvp-content p {
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <img src="images/DropBy Picture.png" alt="DropBy Logo" class="logo" />
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="browse-events.html">Browse Events</a>
+      <a href="list-event.html">List an Event</a>
+      <a href="rsvp-events.html" class="active">Events RSVP'd For</a>
+      <a href="sign-in.html">Sign In</a>
+    </div>
+  </nav>
+
+  <div class="rsvp-content">
+    <h2>Your RSVP'd Events</h2>
+    <p>This page will show events you have RSVP'd for. Feature under development.</p>
+  </div>
+</body>
+</html>

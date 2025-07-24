@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign In - DropBy</title>
+  <link rel="stylesheet" href="../styles.css" />
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-image: url('images/DropBy-Background.png');
+      background-size: cover;
+      background-attachment: fixed;
+      background-position: center;
+      color: white;
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: rgba(0, 0, 0, 0.7);
+      padding: 10px 20px;
+    }
+
+    .logo {
+      height: 50px;
+    }
+
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      margin-left: 20px;
+      font-size: 16px;
+      padding: 6px 12px;
+      border-radius: 5px;
+    }
+
+    .nav-links a.active {
+      background-color: #007bff;
+      color: white;
+    }
+
+    .nav-links a:hover:not(.active) {
+      text-decoration: underline;
+    }
+
+    .auth-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 40px;
+      padding: 60px 20px;
+    }
+
+    .auth-box {
+      background-color: rgba(0, 0, 0, 0.8);
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+      width: 300px;
+    }
+
+    .auth-box h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .auth-box label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+    }
+
+    .auth-box input[type="text"],
+    .auth-box input[type="password"] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 20px;
+      border: none;
+      border-radius: 5px;
+    }
+
+    .auth-box button {
+      width: 100%;
+      padding: 10px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .auth-box button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <img src="images/DropBy Picture.png" alt="DropBy Logo" class="logo" />
+    <div class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="browse-events.html">Browse Events</a>
+      <a href="list-event.html">List an Event</a>
+      <a href="rsvp-events.html">Events RSVP'd For</a>
+      <a href="sign-in.html" class="active">Sign In</a>
+    </div>
+  </nav>
+
+  <div class="auth-container">
+    <!-- Sign In Box -->
+    <div class="auth-box">
+      <h2>Sign In</h2>
+      <form>
+        <label for="signin-username">Username or Email</label>
+        <input type="text" id="signin-username" name="signin-username" placeholder="Enter your username or email" required />
+
+        <label for="signin-password">Password</label>
+        <input type="password" id="signin-password" name="signin-password" placeholder="Enter your password" required />
+
+        <button type="submit">Sign In</button>
+      </form>
+    </div>
+
+    <!-- Create Account Box -->
+    <div class="auth-box">
+      <h2>Create Account</h2>
+      <form>
+        <label for="new-username">Username or Email</label>
+        <input type="text" id="new-username" name="new-username" placeholder="Choose a username or email" required />
+
+        <label for="new-password">Password</label>
+        <input type="password" id="new-password" name="new-password" placeholder="Enter password" required />
+
+        <label for="confirm-password">Confirm Password</label>
+        <input type="password" id="confirm-password" name="confirm-password" placeholder="Re-enter password" required />
+
+        <button type="submit">Create Account</button>
+      </form>
+    </div>
+  </div>
+</body>
+</html>
