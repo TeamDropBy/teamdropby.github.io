@@ -1,95 +1,105 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+'use client';
+import Head from 'next/head';
+import Image from 'next/image';
+import Link from 'next/link';
 
-export default function Home() {
+export default function HomePage() {
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol>
-          <li>
-            Get started by editing <code>src/app/page.tsx</code>.
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+    <>
+      <Head>
+        <title>DropBy - Landing Page</title>
+      </Head>
+      <div
+        style={{
+          margin: 0,
+          fontFamily: 'Arial, sans-serif',
+          backgroundImage: "url('/images/DropBy-Background.png')",
+          backgroundSize: 'cover',
+          backgroundAttachment: 'fixed',
+          backgroundPosition: 'center',
+          minHeight: '100vh',
+          color: 'white',
+        }}
+      >
+        <nav
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            backgroundColor: 'rgba(0, 0, 0, 0.7)',
+            padding: '10px 20px',
+          }}
+        >
+          <Image src="/images/DropBy-Logo.png" alt="DropBy Logo" height={50} width={100} />
+          <div style={{ display: 'flex', gap: '20px' }}>
+            <NavLink href="/browse-events">Browse Events</NavLink>
+            <NavLink href="/list-event">List an Event</NavLink>
+            <NavLink href="/rsvp-events">Events RSVP'd For</NavLink>
+            <NavLink href="/sign-in">Sign In</NavLink>
+          </div>
+        </nav>
 
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.secondary}
-          >
-            Read our docs
-          </a>
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            height: 'calc(100vh - 70px)',
+            textAlign: 'center',
+          }}
+        >
+          <h1 style={{ fontSize: 48, marginBottom: 30 }}>Welcome to DropBy</h1>
+          <div>
+            <InfoButton href="/pages/what-is-dropby">What is DropBy?</InfoButton>
+            <InfoButton href="/pages/how-it-works">How Does DropBy Work?</InfoButton>
+            <InfoButton href="/pages/why-use-dropby">Why is DropBy Useful?</InfoButton>
+          </div>
         </div>
-      </main>
-      <footer className={styles.footer}>
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+      </div>
+    </>
+  );
+}
+
+function NavLink({ href, children }: { href: string; children: React.ReactNode }) {
+  return (
+    <Link href={href} legacyBehavior>
+      <a
+        style={{
+          color: 'white',
+          textDecoration: 'none',
+          marginLeft: 20,
+          fontSize: 16,
+        }}
+      >
+        {children}
+      </a>
+    </Link>
+  );
+}
+
+function InfoButton({ href, children }: { href: string; children: React.ReactNode }) {
+  return (
+    <Link href={href} legacyBehavior>
+      <a
+        style={{
+          display: 'block',
+          margin: 10,
+          padding: '15px 30px',
+          backgroundColor: 'rgba(255, 255, 255, 0.9)',
+          color: 'black',
+          textDecoration: 'none',
+          fontWeight: 'bold',
+          borderRadius: 10,
+          border: '2px solid #333',
+          boxShadow: '2px 2px 5px rgba(0, 0, 0, 0.3)',
+          transition: 'background-color 0.3s, transform 0.2s',
+        }}
+        onMouseOver={(e) => (e.currentTarget.style.backgroundColor = '#f0f0f0')}
+        onMouseOut={(e) => (e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.9)')}
+      >
+        {children}
+      </a>
+    </Link>
   );
 }

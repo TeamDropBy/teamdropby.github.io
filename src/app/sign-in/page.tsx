@@ -2,8 +2,6 @@
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
-import background from '../../public/images/DropBy-Background.png';
-import logo from '../../public/images/DropBy Picture.png';
 
 export default function HomePage() {
   return (
@@ -15,7 +13,7 @@ export default function HomePage() {
         style={{
           margin: 0,
           fontFamily: 'Arial, sans-serif',
-          backgroundImage: `url(${background.src})`,
+          backgroundImage: "url('/images/DropBy-Background.png')",
           backgroundSize: 'cover',
           backgroundAttachment: 'fixed',
           backgroundPosition: 'center',
@@ -32,7 +30,7 @@ export default function HomePage() {
             padding: '10px 20px',
           }}
         >
-          <Image src={logo} alt="DropBy Logo" height={50} />
+          <Image src="/images/DropBy-Logo.png" alt="DropBy Logo" height={50} width={100} />
           <div style={{ display: 'flex' }}>
             <NavLink href="/browse-events">Browse Events</NavLink>
             <NavLink href="/list-event">List an Event</NavLink>

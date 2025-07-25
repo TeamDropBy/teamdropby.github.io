@@ -1,8 +1,6 @@
 'use client';
 import Image from 'next/image';
 import Head from 'next/head';
-import background from '../../../public/images/DropBy-Background.png';
-import logo from '../../../public/images/DropBy Picture.png';
 import { useState } from 'react';
 import Link from 'next/link';
 
@@ -36,7 +34,7 @@ export default function ListEventPage() {
         style={{
           margin: 0,
           fontFamily: 'Arial, sans-serif',
-          backgroundImage: `url(${background.src})`,
+          backgroundImage: "url('/images/DropBy-Background.png')",
           backgroundSize: 'cover',
           backgroundAttachment: 'fixed',
           backgroundPosition: 'center',
@@ -52,7 +50,7 @@ export default function ListEventPage() {
             padding: '10px 20px',
           }}
         >
-          <Image src={logo} alt="DropBy Logo" height={50} />
+          <Image src="/images/DropBy-Logo.png" alt="DropBy Logo" width={100} height={50} />
           <div style={{ display: 'flex' }}>
             <NavLink href="/browse-events">Browse Events</NavLink>
             <NavLink href="/list-event" active>List an Event</NavLink>

@@ -1,8 +1,6 @@
 'use client';
 import Head from 'next/head';
 import Image from 'next/image';
-import background from '../../../public/images/DropBy-Background.png';
-import logo from '../../../public/images/DropBy Picture.png';
 import Link from 'next/link';
 
 export default function BrowseEventsPage() {
@@ -15,7 +13,7 @@ export default function BrowseEventsPage() {
         style={{
           margin: 0,
           fontFamily: 'Arial, sans-serif',
-          backgroundImage: `url(${background.src})`,
+          backgroundImage: "url('/images/DropBy-Background.png')",
           backgroundSize: 'cover',
           backgroundAttachment: 'fixed',
           backgroundPosition: 'center',
@@ -32,9 +30,9 @@ export default function BrowseEventsPage() {
             padding: '10px 20px',
           }}
         >
-          <Image src={logo} alt="DropBy Logo" height={50} />
+          <Image src="/images/DropBy-Logo.png" alt="DropBy Logo" width={100} height={50} />
           <div style={{ display: 'flex' }}>
-            <NavLink href="/" >Home</NavLink>
+            <NavLink href="/">Home</NavLink>
             <NavLink href="/browse-events" active>Browse Events</NavLink>
             <NavLink href="/list-event">List an Event</NavLink>
             <NavLink href="/rsvp-events">Events RSVP'd For</NavLink>
