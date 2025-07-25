@@ -30,7 +30,7 @@ export default function RSVPEventsPage() {
             padding: '10px 20px',
           }}
         >
-          <Image src="/images/DropBy-Logo.png" alt="DropBy Logo" width={100} height={50} />
+          <Image src="/images/DropBy-Logo.png" alt="DropBy Logo" width={100} height={100} />
           <div style={{ display: 'flex' }}>
             <NavLink href="/">Home</NavLink>
             <NavLink href="/browse-events">Browse Events</NavLink>

@@ -30,7 +30,7 @@ export default function HomePage() {
             padding: '10px 20px',
           }}
         >
-          <Image src="/images/DropBy-Logo.png" alt="DropBy Logo" height={50} width={100} />
+          <Image src="/images/DropBy-Logo.png" alt="DropBy Logo" height={100} width={100} />
           <div style={{ display: 'flex', gap: '20px' }}>
             <NavLink href="/browse-events">Browse Events</NavLink>
             <NavLink href="/list-event">List an Event</NavLink>
