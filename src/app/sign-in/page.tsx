@@ -1,105 +1,94 @@
 'use client';
-import Head from 'next/head';
-import Image from 'next/image';
 import Link from 'next/link';
+import { useState } from 'react';
 
-export default function HomePage() {
+export default function SignInPage() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Add your sign-in logic here
+    alert(`Signed in with ${email}`);
+  };
+
   return (
-    <>
-      <Head>
-        <title>DropBy - Landing Page</title>
-      </Head>
-      <div
+    <div
+      style={{
+        minHeight: '100vh',
+        backgroundImage: "url('/images/DropBy-Background.png')",
+        backgroundSize: 'cover',
+        backgroundAttachment: 'fixed',
+        backgroundPosition: 'center',
+        fontFamily: 'Arial, sans-serif',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        color: 'white',
+      }}
+    >
+      <form
+        onSubmit={handleSubmit}
         style={{
-          margin: 0,
-          fontFamily: 'Arial, sans-serif',
-          backgroundImage: "url('/images/DropBy-Background.png')",
-          backgroundSize: 'cover',
-          backgroundAttachment: 'fixed',
-          backgroundPosition: 'center',
-          minHeight: '100vh',
-          color: 'white',
+          backgroundColor: 'rgba(0, 0, 0, 0.7)',
+          padding: '40px',
+          borderRadius: '10px',
+          boxShadow: '0 0 10px rgba(0,0,0,0.5)',
+          width: '100%',
+          maxWidth: '400px',
         }}
       >
-        <nav
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            backgroundColor: 'rgba(0, 0, 0, 0.7)',
-            padding: '10px 20px',
-          }}
-        >
-          <Image src="/images/DropBy-Logo.png" alt="DropBy Logo" height={50} width={100} />
-          <div style={{ display: 'flex' }}>
-            <NavLink href="/browse-events">Browse Events</NavLink>
-            <NavLink href="/list-event">List an Event</NavLink>
-            <NavLink href="/rsvp-events">Events RSVP'd For</NavLink>
-            <NavLink href="/sign-in">Sign In</NavLink>
-          </div>
-        </nav>
+        <h2 style={{ marginBottom: '20px', textAlign: 'center' }}>Sign In</h2>
 
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            height: 'calc(100vh - 70px)',
-            textAlign: 'center',
-          }}
-        >
-          <h1 style={{ fontSize: 48, marginBottom: 30 }}>Welcome to DropBy</h1>
-          <div>
-            <InfoButton href="/pages/what-is-dropby">What is DropBy?</InfoButton>
-            <InfoButton href="/pages/how-it-works">How Does DropBy Work?</InfoButton>
-            <InfoButton href="/pages/why-use-dropby">Why is DropBy Useful?</InfoButton>
-          </div>
-        </div>
-      </div>
-    </>
+        <label style={{ display: 'block', marginBottom: '10px' }}>
+          Email:
+          <input
+            type="email"
+            required
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            style={inputStyle}
+          />
+        </label>
+
+        <label style={{ display: 'block', marginBottom: '10px' }}>
+          Password:
+          <input
+            type="password"
+            required
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            style={inputStyle}
+          />
+        </label>
+
+        <button type="submit" style={buttonStyle}>Sign In</button>
+
+        <p style={{ marginTop: '20px', textAlign: 'center' }}>
+          Don't have an account? <Link href="/sign-up" style={{ color: '#f1c40f' }}>Sign up</Link>
+        </p>
+      </form>
+    </div>
   );
 }
 
-function NavLink({ href, children }: { href: string; children: React.ReactNode }) {
-  return (
-    <Link href={href} legacyBehavior>
-      <a
-        style={{
-          color: 'white',
-          textDecoration: 'none',
-          marginLeft: 20,
-          fontSize: 16,
-        }}
-      >
-        {children}
-      </a>
-    </Link>
-  );
-}
+const inputStyle: React.CSSProperties = {
+  width: '100%',
+  padding: '10px',
+  marginTop: '5px',
+  borderRadius: '5px',
+  border: '1px solid #ccc',
+  boxSizing: 'border-box',
+};
 
-function InfoButton({ href, children }: { href: string; children: React.ReactNode }) {
-  return (
-    <Link href={href} legacyBehavior>
-      <a
-        style={{
-          display: 'block',
-          margin: 10,
-          padding: '15px 30px',
-          backgroundColor: 'rgba(255, 255, 255, 0.9)',
-          color: 'black',
-          textDecoration: 'none',
-          fontWeight: 'bold',
-          borderRadius: 10,
-          border: '2px solid #333',
-          boxShadow: '2px 2px 5px rgba(0, 0, 0, 0.3)',
-          transition: 'background-color 0.3s, transform 0.2s',
-        }}
-        onMouseOver={(e) => (e.currentTarget.style.backgroundColor = '#f0f0f0')}
-        onMouseOut={(e) => (e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.9)')}
-      >
-        {children}
-      </a>
-    </Link>
-  );
-}
+const buttonStyle: React.CSSProperties = {
+  width: '100%',
+  padding: '10px',
+  backgroundColor: '#f1c40f',
+  color: 'black',
+  border: 'none',
+  borderRadius: '5px',
+  marginTop: '15px',
+  fontWeight: 'bold',
+  cursor: 'pointer',
+};
