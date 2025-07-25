@@ -52,6 +52,7 @@ export default function ListEventPage() {
         >
           <Image src="/images/DropBy-Logo.png" alt="DropBy Logo" width={100} height={100} />
           <div style={{ display: 'flex' }}>
+            <NavLink href="/">Home</NavLink>
             <NavLink href="/browse-events">Browse Events</NavLink>
             <NavLink href="/list-event" active>List an Event</NavLink>
             <NavLink href="/rsvp-events">Events RSVP'd For</NavLink>

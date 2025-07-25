@@ -2,6 +2,7 @@
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 export default function HomePage() {
   return (
@@ -31,7 +32,8 @@ export default function HomePage() {
           }}
         >
           <Image src="/images/DropBy-Logo.png" alt="DropBy Logo" height={100} width={100} />
-          <div style={{ display: 'flex', gap: '20px' }}>
+          <div style={{ display: 'flex' }}>
+            <NavLink href="/">Home</NavLink>
             <NavLink href="/browse-events">Browse Events</NavLink>
             <NavLink href="/list-event">List an Event</NavLink>
             <NavLink href="/rsvp-events">Events RSVP'd For</NavLink>
@@ -61,7 +63,11 @@ export default function HomePage() {
   );
 }
 
+// ✅ Matches styling from "List an Event" page
 function NavLink({ href, children }: { href: string; children: React.ReactNode }) {
+  const pathname = usePathname();
+  const isActive = pathname === href || (href === '/' && pathname === '/');
+
   return (
     <Link href={href} legacyBehavior>
       <a
@@ -70,6 +76,9 @@ function NavLink({ href, children }: { href: string; children: React.ReactNode }
           textDecoration: 'none',
           marginLeft: 20,
           fontSize: 16,
+          padding: '6px 12px',
+          borderRadius: 5,
+          backgroundColor: isActive ? '#007bff' : 'transparent',
         }}
       >
         {children}
@@ -103,3 +112,4 @@ function InfoButton({ href, children }: { href: string; children: React.ReactNod
     </Link>
   );
 }
+
