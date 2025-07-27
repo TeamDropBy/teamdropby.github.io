@@ -67,7 +67,7 @@ The live DropBy application is hosted on Vercel:
 
 ## Team Contract
 
-📄 [View Team Contract](./team-contract.pdf) 
+📄 [View Team Contract](public/team-contract.pdf) 
 
 ---
 
