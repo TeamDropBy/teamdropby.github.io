@@ -9,6 +9,9 @@
 - [Project Goals](#project-goals)
 - [Planned Features](#planned-features)
 - [Mockups](#mockups)
+- [Deployment](#deployment)
+- [GitHub & Project Boards](#github--project-boards)
+- [Team Contract](#team-contract)
 - [Development Info](#development-info)
 - [Team Members](#team-members)
 
@@ -31,14 +34,35 @@
 - RSVP to events and track attendance
 - Filter events by category or search by keyword
 - Subscribe to other users/pages to receive notifications
-- (Stretch goal) Leave reviews or feedback after attending an event
-- (Stretch goal) Export events to Google Calendar
+- *(Stretch goal)* Leave reviews or feedback after attending an event
+- *(Stretch goal)* Export events to Google Calendar
 
 ---
 
 ## Mockups
 
 _Screenshots or wireframes coming soon._
+
+---
+
+## Deployment
+
+The live DropBy application is hosted on Vercel:  
+🔗 [Visit DropBy on Vercel](https://teamdropby-github-io-9smf.vercel.app/) 
+
+---
+
+## GitHub & Project Boards
+
+- 🔗 [GitHub Organization](https://github.com/teamdropby)
+- ✅ [Milestone 1 Project Board](https://github.com/orgs/teamdropby/projects/1)
+- ⏭️ [Milestone 2 Project Board](https://github.com/orgs/teamdropby/projects/2)
+
+---
+
+## Team Contract
+
+📄 [View Team Contract](./team-contract.pdf) 
 
 ---
 
@@ -61,3 +85,5 @@ _Screenshots or wireframes coming soon._
 ---
 
 This project is part of the ICS 314 Software Engineering Final Project at UH Mānoa, Summer 2025.
+
+Published with GitHub Pages.
