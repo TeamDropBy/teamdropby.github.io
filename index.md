@@ -52,7 +52,7 @@
 
 [Visit DropBy on Vercel](https://teamdropby-github-io-9smf.vercel.app/) 
 The live DropBy application is hosted on Vercel:  
-![Vercel](public/vercelss.png)
+![Vercel](public/DropBy_LandingPage_Screenshot.jpg)
 *Current home page layout for the deployed site.*
 
 ---
