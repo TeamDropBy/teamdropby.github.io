@@ -41,7 +41,7 @@
 
 ## Mockups
 
-![Wireframe](/DropByWireframe.drawio.png)
+![Wireframe](/wireframe.png)
 
 - Mockups Coming Soon
 
