@@ -42,11 +42,7 @@
 ## Mockups
 
 ![Wireframe](public/wireframe.png)  
-*DropBy Wireframe*
-
-![Vercel](public/vercelss.png)  
-*Live Vercel Link*
-
+*This wireframe outlines the layout of the key pages in DropBy, including the Landing, Profile, Login, Event Creation, and RSVP pages.*
 - Mockups Coming Soon
 
 
@@ -54,8 +50,10 @@
 
 ## Deployment
 
+[Visit DropBy on Vercel](https://teamdropby-github-io-9smf.vercel.app/) 
 The live DropBy application is hosted on Vercel:  
-🔗 [Visit DropBy on Vercel](https://teamdropby-github-io-9smf.vercel.app/) 
+![Vercel](public/vercelss.png)
+*Current home page layout for the deployed site.*
 
 ---
 
