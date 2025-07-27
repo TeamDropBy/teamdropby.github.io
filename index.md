@@ -41,7 +41,7 @@
 
 ## Mockups
 
-![Wireframe](/wireframe.png)
+![Wireframe](public/wireframe.png)
 
 - Mockups Coming Soon
 
