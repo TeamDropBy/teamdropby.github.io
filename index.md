@@ -1,4 +1,4 @@
-<img width="1896" height="877" alt="image" src="https://github.com/user-attachments/assets/57070c2c-6b37-4cfb-8265-61a40370e02c" /># DropBy
+# DropBy
 
 **DropBy** is a web application designed to help people discover and share local events happening in their community. Whether it's a pickup volleyball game, a car meet, a church gathering, or a casual hangout — DropBy lets you find what’s happening nearby and connect with others who plan to attend.
 
