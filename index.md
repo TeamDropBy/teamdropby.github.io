@@ -38,7 +38,37 @@
 
 ## Mockups
 
-_Screenshots or wireframes coming soon._
+![Wireframe](public/wireframe.png)  
+*This wireframe outlines the layout of the key pages in DropBy, including the Landing, Profile, Login, Event Creation, and RSVP pages.*
+
+<img src="public/Browsing.png" alt="Browsing Page Mockup">
+<img src="public/List_A_Event.png" alt="List an Event Mockup">
+<img src="public/RSVP.png" alt="RSVP Page Mockup">
+<img src="public/Sign_In.png" alt="Sign In Page Mockup">
+
+
+---
+
+## Deployment
+
+[Visit DropBy on Vercel](https://teamdropby-github-io-9smf-n1g6dbi7u-koas-projects-92f9d416.vercel.app/?_vercel_share=40HRPnwxJzxnLEIp2ndnwfbnSV8wa3vP) 
+The live DropBy application is hosted on Vercel:  
+![Vercel](public/DropBy_LandingPage_Screenshot.jpg)
+*Current home page layout for the deployed site.*
+
+---
+
+## GitHub & Project Boards
+
+- 🔗 [GitHub Organization](https://github.com/teamdropby)
+- ✅ [Milestone 1 Project Board](https://github.com/orgs/teamdropby/projects/1)
+- ⏭️ [Milestone 2 Project Board](https://github.com/orgs/teamdropby/projects/3)
+
+---
+
+## Team Contract
+
+📄 [View Team Contract](docs/team-contract.pdf) 
 
 ---
 
