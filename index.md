@@ -1,4 +1,4 @@
-# DropBy
+<img width="1896" height="877" alt="image" src="https://github.com/user-attachments/assets/57070c2c-6b37-4cfb-8265-61a40370e02c" /># DropBy
 
 **DropBy** is a web application designed to help people discover and share local events happening in their community. Whether it's a pickup volleyball game, a car meet, a church gathering, or a casual hangout — DropBy lets you find what’s happening nearby and connect with others who plan to attend.
 
@@ -43,7 +43,11 @@
 
 ![Wireframe](public/wireframe.png)  
 *This wireframe outlines the layout of the key pages in DropBy, including the Landing, Profile, Login, Event Creation, and RSVP pages.*
-- Mockups Coming Soon
+
+<img src="public/Browsing.png" alt="Browsing Page Mockup">
+<img src="public/List_A_Event.png" alt="List an Event Mockup">
+<img src="public/RSVP.png" alt="RSVP Page Mockup">
+<img src="public/Sign_In.png" alt="Sign In Page Mockup">
 
 
 ---
