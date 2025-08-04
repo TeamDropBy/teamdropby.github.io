@@ -5,28 +5,24 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 export default function BrowseEventsPage() {
-  const [events, setEvents] = useState<
-    { id: number; title: string; details: string; contact: string }[]
-  >([]);
-
+  const [events, setEvents] = useState<{ id: number; title: string; details: string; contact: string }[]>([]);
 
   useEffect(() => {
-  fetch('/api/events')
-    .then((res) => res.json())
-    .then((data) => {
-      console.log('Fetched events:', data);
-      if (Array.isArray(data)) {
-        setEvents(data);
-      } else {
-        console.error('Unexpected response:', data);
-        setEvents([]); // prevent .map crash
-      }
-    })
-    .catch((err) => {
-      console.error('Fetch error:', err);
-      setEvents([]);
-    });
-}, []);
+    fetch('/api/events')
+      .then((res) => res.json())
+      .then((data) => {
+        if (Array.isArray(data)) {
+          setEvents(data);
+        } else {
+          console.error('Unexpected response:', data);
+          setEvents([]); // Prevent .map crash
+        }
+      })
+      .catch((err) => {
+        console.error('Fetch error:', err);
+        setEvents([]); // Clear events on error
+      });
+  }, []);
 
   return (
     <>
@@ -69,7 +65,7 @@ export default function BrowseEventsPage() {
           {events.length === 0 ? (
             <p style={{ fontSize: 18, textAlign: 'center' }}>No events found. Be the first to list one!</p>
           ) : (
-            events.map((event: any) => (
+            events.map((event) => (
               <div
                 key={event.id}
                 style={{
@@ -113,4 +109,3 @@ function NavLink({ href, children, active = false }: { href: string; children: R
     </Link>
   );
 }
-

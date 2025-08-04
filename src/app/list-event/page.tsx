@@ -36,7 +36,8 @@ export default function ListEventPage() {
         setFormData({ title: '', details: '', contact: '' });
       } else {
         const error = await res.json();
-        alert('Error: ' + error.error);
+        alert('Error: ' + (error.error || error.message));
+        console.error('Error details:', error);
       }
     } catch (err) {
       console.error('Error:', err);
@@ -221,4 +222,3 @@ function FormTextArea({ label, id, rows = 5, required = false, value, onChange }
     </div>
   );
 }
-
