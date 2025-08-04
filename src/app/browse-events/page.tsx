@@ -15,12 +15,12 @@ export default function BrowseEventsPage() {
           setEvents(data);
         } else {
           console.error('Unexpected response:', data);
-          setEvents([]); // prevent .map crash
+          setEvents([]); // Prevent .map crash
         }
       })
       .catch((err) => {
         console.error('Fetch error:', err);
-        setEvents([]);
+        setEvents([]); // Clear events on error
       });
   }, []);
 
