@@ -7,6 +7,21 @@ const supabaseUrl = 'https://aazjsdrvpiofshwyqjrq.supabase.co'
 const supabaseKey = process.env.SUPABASE_KEY!;
 const supabase = createClient(supabaseUrl, supabaseKey)
 
+// Fetch all events
+export async function GET() {
+  const { data, error } = await supabase
+    .from('Event')
+    .select('*')
+    .order('createdAt', { ascending: false });
+
+  if (error) {
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+
+  return NextResponse.json(data);
+}
+
+// Create new event
 export async function POST(req: Request) {
   const body = await req.json();
   const { title, details, contact } = body;
@@ -20,7 +35,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 
-  const result = data as any[]; // 👈 explicitly tell TypeScript it's an array
+  const result = data as any[];
 
   if (!result.length) {
     return NextResponse.json({ error: 'No data returned' }, { status: 500 });
