@@ -1,15 +1,8 @@
-import type { NextConfig } from "next";
-
-const nextConfig: NextConfig = {
-  /* config options here */
-};
-
-// next.config.js
-module.exports = {
+/** @type {import('next').NextConfig} */
+const nextConfig = {
   reactStrictMode: true,
-  experimental: {
-    appDir: true,  // Enable experimental app directory
-  },
+  // No need for experimental.appDir
 };
 
 export default nextConfig;
+
