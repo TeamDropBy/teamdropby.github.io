@@ -11,9 +11,8 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("postgresql://postgres:dropbyadmin@db.lxknzvynsybrqgjphvbw.supabase.co:5432/postgres")
+  url      = env("DATABASE_URL")
 }
-
 
 model Event {
   id        Int      @id @default(autoincrement())
