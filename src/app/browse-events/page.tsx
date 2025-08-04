@@ -4,8 +4,17 @@ import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
 
+type Event = {
+  id: number;
+  title: string;
+  details: string;
+  contact: string;
+  createdAt?: string;
+};
+
 export default function BrowseEventsPage() {
-  const [events, setEvents] = useState<{ id: number; title: string; details: string; contact: string }[]>([]);
+  const [events, setEvents] = useState<Event[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetch('/api/events')
@@ -15,12 +24,14 @@ export default function BrowseEventsPage() {
           setEvents(data);
         } else {
           console.error('Unexpected response:', data);
-          setEvents([]); // Prevent .map crash
+          setEvents([]);
         }
+        setLoading(false);
       })
       .catch((err) => {
         console.error('Fetch error:', err);
-        setEvents([]); // Clear events on error
+        setEvents([]);
+        setLoading(false);
       });
   }, []);
 
@@ -62,7 +73,10 @@ export default function BrowseEventsPage() {
 
         <div style={{ padding: '60px 20px' }}>
           <h2 style={{ fontSize: 36, marginBottom: 20, textAlign: 'center' }}>Browse Events</h2>
-          {events.length === 0 ? (
+
+          {loading ? (
+            <p style={{ fontSize: 18, textAlign: 'center' }}>Loading events...</p>
+          ) : events.length === 0 ? (
             <p style={{ fontSize: 18, textAlign: 'center' }}>No events found. Be the first to list one!</p>
           ) : (
             events.map((event) => (
@@ -81,6 +95,11 @@ export default function BrowseEventsPage() {
                 <h3 style={{ marginBottom: 10 }}>{event.title}</h3>
                 <p>{event.details}</p>
                 <p><strong>Contact:</strong> {event.contact}</p>
+                {event.createdAt && (
+                  <p style={{ fontStyle: 'italic', fontSize: 12 }}>
+                    Listed on: {new Date(event.createdAt).toLocaleDateString()}
+                  </p>
+                )}
               </div>
             ))
           )}
