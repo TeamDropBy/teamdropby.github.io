@@ -11,8 +11,7 @@ const supabase = createClient(supabaseUrl, supabaseKey)
 export async function GET() {
   const { data, error } = await supabase
     .from('Event')
-    .select('*')
-    .order('createdAt', { ascending: false });
+    .select('*'); // No .order()
 
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
@@ -20,6 +19,7 @@ export async function GET() {
 
   return NextResponse.json(data);
 }
+
 
 // Create new event
 export async function POST(req: Request) {
