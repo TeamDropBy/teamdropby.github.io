@@ -16,13 +16,32 @@ export default function ListEventPage() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
     if (!formData.title || !formData.details || !formData.contact) {
       alert('Please fill in all fields before submitting.');
       return;
     }
-    alert('Event created successfully (demo)!');
+
+    try {
+      const res = await fetch('/api/events', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+
+      if (res.ok) {
+        alert('Event created successfully!');
+        setFormData({ title: '', details: '', contact: '' });
+      } else {
+        const error = await res.json();
+        alert('Error: ' + error.error);
+      }
+    } catch (err) {
+      console.error('Error:', err);
+      alert('Something went wrong.');
+    }
   };
 
   return (
@@ -72,9 +91,30 @@ export default function ListEventPage() {
           >
             <h2 style={{ textAlign: 'center', marginBottom: 20 }}>Create an Event</h2>
             <form onSubmit={handleSubmit}>
-              <FormInput label="Event Title" id="title" type="text" required onChange={handleChange} />
-              <FormTextArea label="Event Details (Time, Location, Description)" id="details" rows={5} required onChange={handleChange} />
-              <FormInput label="Contact Information" id="contact" type="text" required onChange={handleChange} />
+              <FormInput
+                label="Event Title"
+                id="title"
+                type="text"
+                required
+                value={formData.title}
+                onChange={handleChange}
+              />
+              <FormTextArea
+                label="Event Details (Time, Location, Description)"
+                id="details"
+                rows={5}
+                required
+                value={formData.details}
+                onChange={handleChange}
+              />
+              <FormInput
+                label="Contact Information"
+                id="contact"
+                type="text"
+                required
+                value={formData.contact}
+                onChange={handleChange}
+              />
               <button
                 type="submit"
                 style={{
@@ -118,7 +158,14 @@ function NavLink({ href, children, active = false }: { href: string; children: R
   );
 }
 
-function FormInput({ label, id, type, required = false, onChange }: { label: string; id: string; type: string; required?: boolean; onChange: (e: React.ChangeEvent<HTMLInputElement>) => void }) {
+function FormInput({ label, id, type, required = false, value, onChange }: {
+  label: string;
+  id: string;
+  type: string;
+  required?: boolean;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}) {
   return (
     <div>
       <label htmlFor={id} style={{ display: 'block', marginBottom: 8, fontWeight: 'bold' }}>
@@ -129,6 +176,7 @@ function FormInput({ label, id, type, required = false, onChange }: { label: str
         id={id}
         name={id}
         required={required}
+        value={value}
         onChange={onChange}
         style={{
           width: '100%',
@@ -142,7 +190,14 @@ function FormInput({ label, id, type, required = false, onChange }: { label: str
   );
 }
 
-function FormTextArea({ label, id, rows = 5, required = false, onChange }: { label: string; id: string; rows?: number; required?: boolean; onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void }) {
+function FormTextArea({ label, id, rows = 5, required = false, value, onChange }: {
+  label: string;
+  id: string;
+  rows?: number;
+  required?: boolean;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+}) {
   return (
     <div>
       <label htmlFor={id} style={{ display: 'block', marginBottom: 8, fontWeight: 'bold' }}>
@@ -153,6 +208,7 @@ function FormTextArea({ label, id, rows = 5, required = false, onChange }: { lab
         name={id}
         rows={rows}
         required={required}
+        value={value}
         onChange={onChange}
         style={{
           width: '100%',
@@ -165,3 +221,4 @@ function FormTextArea({ label, id, rows = 5, required = false, onChange }: { lab
     </div>
   );
 }
+

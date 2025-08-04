@@ -1,9 +1,33 @@
 'use client';
+import { useEffect, useState } from 'react';
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
 
 export default function BrowseEventsPage() {
+  const [events, setEvents] = useState<
+    { id: number; title: string; details: string; contact: string }[]
+  >([]);
+
+
+  useEffect(() => {
+  fetch('/api/events')
+    .then((res) => res.json())
+    .then((data) => {
+      console.log('Fetched events:', data);
+      if (Array.isArray(data)) {
+        setEvents(data);
+      } else {
+        console.error('Unexpected response:', data);
+        setEvents([]); // prevent .map crash
+      }
+    })
+    .catch((err) => {
+      console.error('Fetch error:', err);
+      setEvents([]);
+    });
+}, []);
+
   return (
     <>
       <Head>
@@ -40,9 +64,30 @@ export default function BrowseEventsPage() {
           </div>
         </nav>
 
-        <div style={{ padding: '60px 20px', textAlign: 'center' }}>
-          <h2 style={{ fontSize: 36, marginBottom: 20 }}>Browse Events</h2>
-          <p style={{ fontSize: 18 }}>This page will list all upcoming DropBy events. Stay tuned!</p>
+        <div style={{ padding: '60px 20px' }}>
+          <h2 style={{ fontSize: 36, marginBottom: 20, textAlign: 'center' }}>Browse Events</h2>
+          {events.length === 0 ? (
+            <p style={{ fontSize: 18, textAlign: 'center' }}>No events found. Be the first to list one!</p>
+          ) : (
+            events.map((event: any) => (
+              <div
+                key={event.id}
+                style={{
+                  backgroundColor: 'rgba(0, 0, 0, 0.6)',
+                  borderRadius: 10,
+                  padding: 20,
+                  marginBottom: 20,
+                  maxWidth: 600,
+                  marginInline: 'auto',
+                  boxShadow: '0 0 10px rgba(0,0,0,0.5)',
+                }}
+              >
+                <h3 style={{ marginBottom: 10 }}>{event.title}</h3>
+                <p>{event.details}</p>
+                <p><strong>Contact:</strong> {event.contact}</p>
+              </div>
+            ))
+          )}
         </div>
       </div>
     </>
@@ -68,3 +113,4 @@ function NavLink({ href, children, active = false }: { href: string; children: R
     </Link>
   );
 }
+
