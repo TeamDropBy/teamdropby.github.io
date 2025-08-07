@@ -2,7 +2,6 @@
 import { createClient } from '@supabase/supabase-js';
 import { NextResponse } from 'next/server';
 
-// Supabase setup
 const supabaseUrl = 'https://aazjsdrvpiofshwyqjrq.supabase.co';
 const supabaseKey = process.env.SUPABASE_KEY!;
 const supabase = createClient(supabaseUrl, supabaseKey);
@@ -22,15 +21,15 @@ export async function GET() {
   return NextResponse.json(data);
 }
 
-// ✅ POST: Create new event (requires user_id from localStorage)
+// ✅ POST: Create new event (user_id is now optional)
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const { title, details, contact, user_id } = body;
+    const { title, details, contact, user_id = null } = body;
 
-    if (!title || !details || !contact || !user_id) {
+    if (!title || !details || !contact) {
       return NextResponse.json(
-        { error: 'Missing title, details, contact, or user_id' },
+        { error: 'Missing title, details, or contact' },
         { status: 400 }
       );
     }
@@ -45,13 +44,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
-    const result = data as any[];
-
-    if (!result.length) {
-      return NextResponse.json({ error: 'No data returned' }, { status: 500 });
-    }
-
-    return NextResponse.json(result[0]);
+    return NextResponse.json(data[0]);
   } catch (err: any) {
     console.error('POST route crash:', err.message);
     return NextResponse.json({ error: 'Something went wrong' }, { status: 500 });
@@ -67,10 +60,7 @@ export async function DELETE(req: Request) {
     return NextResponse.json({ error: 'Missing event ID' }, { status: 400 });
   }
 
-  const { error } = await supabase
-    .from('Event')
-    .delete()
-    .eq('id', id);
+  const { error } = await supabase.from('Event').delete().eq('id', id);
 
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
@@ -78,6 +68,7 @@ export async function DELETE(req: Request) {
 
   return NextResponse.json({ success: true });
 }
+
 
 
 
