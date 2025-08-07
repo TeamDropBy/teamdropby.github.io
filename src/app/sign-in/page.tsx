@@ -12,23 +12,53 @@ export default function SignInPage() {
   const [signUpPassword, setSignUpPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
-  const handleSignIn = (e: React.FormEvent) => {
-    e.preventDefault();
-    alert(`Signed in with ${email}`);
-  };
+  const handleSignIn = async (e: React.FormEvent) => {
+  e.preventDefault();
+  const res = await fetch('/api/auth', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ type: 'signin', email, password }),
+  });
 
-  const handleSignUp = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (signUpPassword !== confirmPassword) {
-      alert('Passwords do not match!');
-      return;
-    }
-    alert(`Account created for ${signUpEmail}`);
+  const result = await res.json();
+
+  if (res.ok) {
+    alert(`Signed in as ${result.user.email}`);
+    localStorage.setItem('user_id', result.user.id); // Store user_id for event creation
+  } else {
+    alert('Sign in failed: ' + result.error);
+  }
+};
+
+const handleSignUp = async (e: React.FormEvent) => {
+  e.preventDefault();
+  if (signUpPassword !== confirmPassword) {
+    alert('Passwords do not match!');
+    return;
+  }
+
+  const res = await fetch('/api/auth', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      type: 'signup',
+      email: signUpEmail,
+      password: signUpPassword,
+    }),
+  });
+
+  const result = await res.json();
+
+  if (res.ok) {
+    alert(`Account created for ${result.user.email}`);
     setSignUpEmail('');
     setSignUpPassword('');
     setConfirmPassword('');
     setShowSignUp(false);
-  };
+  } else {
+    alert('Signup failed: ' + result.error);
+  }
+};
 
   return (
     <>
