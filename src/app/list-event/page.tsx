@@ -9,7 +9,6 @@ export default function ListEventPage() {
     title: '',
     details: '',
     contact: '',
-    user_id: '',
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -18,41 +17,33 @@ export default function ListEventPage() {
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  const user_id = localStorage.getItem('user_id'); // ✅ Retrieve user ID
-
-  if (!formData.title || !formData.details || !formData.contact) {
-    alert('Please fill in all fields before submitting.');
-    return;
-  }
-
-  if (!user_id) {
-    alert('You must be signed in to create an event.');
-    return;
-  }
-
-  try {
-    const res = await fetch('/api/events', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ ...formData, user_id }),
-    });
-
-    if (res.ok) {
-      alert('Event created successfully!');
-      setFormData({ title: '', details: '', contact: '', user_id: '' });
-    } else {
-      const error = await res.json();
-      alert('Error: ' + (error.error || error.message));
-      console.error('Error details:', error);
+    if (!formData.title || !formData.details || !formData.contact) {
+      alert('Please fill in all fields before submitting.');
+      return;
     }
-  } catch (err) {
-    console.error('Error:', err);
-    alert('Something went wrong.');
-  }
-};
 
+    try {
+      const res = await fetch('/api/events', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+
+      if (res.ok) {
+        alert('Event created successfully!');
+        setFormData({ title: '', details: '', contact: '' });
+      } else {
+        const error = await res.json();
+        alert('Error: ' + (error.error || error.message));
+        console.error('Error details:', error);
+      }
+    } catch (err) {
+      console.error('Error:', err);
+      alert('Something went wrong.');
+    }
+  };
 
   return (
     <>
@@ -231,4 +222,5 @@ function FormTextArea({ label, id, rows = 5, required = false, value, onChange }
     </div>
   );
 }
+
 
