@@ -3,6 +3,9 @@ import Head from 'next/head';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+
+
 
 export default function SignInPage() {
   const [email, setEmail] = useState('');
@@ -11,6 +14,7 @@ export default function SignInPage() {
   const [signUpEmail, setSignUpEmail] = useState('');
   const [signUpPassword, setSignUpPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const router = useRouter();
 
   const handleSignIn = async (e: React.FormEvent) => {
   e.preventDefault();
@@ -25,6 +29,7 @@ export default function SignInPage() {
   if (res.ok) {
     alert(`Signed in as ${result.user.email}`);
     localStorage.setItem('user_id', result.user.id); // Store user_id for event creation
+    router.push('/browse-events'); // or wherever you want to send them
   } else {
     alert('Sign in failed: ' + result.error);
   }
@@ -50,14 +55,16 @@ const handleSignUp = async (e: React.FormEvent) => {
   const result = await res.json();
 
   if (res.ok) {
-    alert(`Account created for ${result.user.email}`);
-    setSignUpEmail('');
-    setSignUpPassword('');
-    setConfirmPassword('');
-    setShowSignUp(false);
-  } else {
-    alert('Signup failed: ' + result.error);
-  }
+  alert(`✅ Account created for ${result.user.email}. You can now sign in.`);
+  setEmail(result.user.email); // Auto-fill email field
+  setSignUpEmail('');
+  setSignUpPassword('');
+  setConfirmPassword('');
+  setShowSignUp(false); // Hide sign-up form
+} else {
+  alert('Signup failed: ' + result.error);
+}
+
 };
 
   return (
