@@ -1,28 +1,15 @@
 'use client';
 import Image from 'next/image';
 import Head from 'next/head';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 
 export default function ListEventPage() {
-  const [formData, setFormData] = useState({ title: '', details: '', contact: '' });
-  const [events, setEvents] = useState<any[]>([]);
-  const [userId, setUserId] = useState<string | null>(null);
-  const router = useRouter();
-  
-
-
-  useEffect(() => {
-   loadUserEvents(); // just load all events, not user-specific
-}, []);
-
-  const loadUserEvents = async () => {
-  const res = await fetch('/api/events');
-  const data = await res.json();
-  setEvents(data); // load all events
-};
-
+  const [formData, setFormData] = useState({
+    title: '',
+    details: '',
+    contact: '',
+  });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -30,45 +17,31 @@ export default function ListEventPage() {
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  if (!formData.title || !formData.details || !formData.contact) {
-    alert('Please fill in all fields before submitting.');
-    return;
-  }
-
-  try {
-    const res = await fetch('/api/events', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(formData), // No user_id
-    });
-
-    if (res.ok) {
-      alert('Event created successfully!');
-      setFormData({ title: '', details: '', contact: '' });
-      loadUserEvents(); // Reload events
-    } else {
-      const error = await res.json();
-      alert('Error: ' + (error.error || error.message));
-      console.error('Error details:', error);
+    if (!formData.title || !formData.details || !formData.contact) {
+      alert('Please fill in all fields before submitting.');
+      return;
     }
-  } catch (err) {
-    console.error('Error:', err);
-    alert('Something went wrong.');
-  }
-};
 
+    try {
+      const res = await fetch('/api/events', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
 
-  const handleDelete = async (id: number) => {
-    const confirm = window.confirm('Are you sure you want to delete this event?');
-    if (!confirm) return;
-
-    const res = await fetch(`/api/events?id=${id}`, { method: 'DELETE' });
-    if (res.ok) {
-      setEvents(events.filter((e) => e.id !== id));
-    } else {
-      alert('Failed to delete event.');
+      if (res.ok) {
+        alert('Event created successfully!');
+        setFormData({ title: '', details: '', contact: '' });
+      } else {
+        const error = await res.json();
+        alert('Error: ' + (error.error || error.message));
+        console.error('Error details:', error);
+      }
+    } catch (err) {
+      console.error('Error:', err);
+      alert('Something went wrong.');
     }
   };
 
@@ -107,34 +80,59 @@ export default function ListEventPage() {
           </div>
         </nav>
 
-        {/* Create Event Form */}
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '60px 20px' }}>
-          <div style={{ backgroundColor: 'rgba(0, 0, 0, 0.8)', padding: 40, borderRadius: 10, width: 400 }}>
+          <div
+            style={{
+              backgroundColor: 'rgba(0, 0, 0, 0.8)',
+              padding: 40,
+              borderRadius: 10,
+              boxShadow: '0 0 10px rgba(0, 0, 0, 0.5)',
+              width: 400,
+            }}
+          >
             <h2 style={{ textAlign: 'center', marginBottom: 20 }}>Create an Event</h2>
             <form onSubmit={handleSubmit}>
-              <FormInput label="Event Title" id="title" type="text" required value={formData.title} onChange={handleChange} />
-              <FormTextArea label="Event Details (Time, Location, Description)" id="details" required value={formData.details} onChange={handleChange} />
-              <FormInput label="Contact Information" id="contact" type="text" required value={formData.contact} onChange={handleChange} />
-              <button type="submit" style={{ width: '100%', padding: 10, backgroundColor: '#007bff', color: 'white', border: 'none', borderRadius: 5, cursor: 'pointer', fontWeight: 'bold' }}>
+              <FormInput
+                label="Event Title"
+                id="title"
+                type="text"
+                required
+                value={formData.title}
+                onChange={handleChange}
+              />
+              <FormTextArea
+                label="Event Details (Time, Location, Description)"
+                id="details"
+                rows={5}
+                required
+                value={formData.details}
+                onChange={handleChange}
+              />
+              <FormInput
+                label="Contact Information"
+                id="contact"
+                type="text"
+                required
+                value={formData.contact}
+                onChange={handleChange}
+              />
+              <button
+                type="submit"
+                style={{
+                  width: '100%',
+                  padding: 10,
+                  backgroundColor: '#007bff',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: 5,
+                  cursor: 'pointer',
+                  fontWeight: 'bold',
+                }}
+              >
                 Create Event
               </button>
             </form>
           </div>
-        </div>
-
-        {/* Event List */}
-        <div style={{ maxWidth: 700, margin: '40px auto', padding: '0 20px' }}>
-          <h2>Your Events</h2>
-          {events.length === 0 ? <p>No events yet.</p> : events.map(event => (
-            <div key={event.id} style={{ backgroundColor: 'rgba(255,255,255,0.1)', padding: 20, borderRadius: 8, marginBottom: 20 }}>
-              <h3>{event.title}</h3>
-              <p>{event.details}</p>
-              <p><strong>Contact:</strong> {event.contact}</p>
-              <button onClick={() => handleDelete(event.id)} style={{ padding: '6px 12px', backgroundColor: 'red', color: 'white', border: 'none', borderRadius: 5 }}>
-                Delete
-              </button>
-            </div>
-          ))}
         </div>
       </div>
     </>
@@ -171,7 +169,9 @@ function FormInput({ label, id, type, required = false, value, onChange }: {
 }) {
   return (
     <div>
-      <label htmlFor={id} style={{ display: 'block', marginBottom: 8, fontWeight: 'bold' }}>{label}</label>
+      <label htmlFor={id} style={{ display: 'block', marginBottom: 8, fontWeight: 'bold' }}>
+        {label}
+      </label>
       <input
         type={type}
         id={id}
@@ -179,7 +179,13 @@ function FormInput({ label, id, type, required = false, value, onChange }: {
         required={required}
         value={value}
         onChange={onChange}
-        style={{ width: '100%', padding: 10, marginBottom: 20, border: 'none', borderRadius: 5 }}
+        style={{
+          width: '100%',
+          padding: 10,
+          marginBottom: 20,
+          border: 'none',
+          borderRadius: 5,
+        }}
       />
     </div>
   );
@@ -195,7 +201,9 @@ function FormTextArea({ label, id, rows = 5, required = false, value, onChange }
 }) {
   return (
     <div>
-      <label htmlFor={id} style={{ display: 'block', marginBottom: 8, fontWeight: 'bold' }}>{label}</label>
+      <label htmlFor={id} style={{ display: 'block', marginBottom: 8, fontWeight: 'bold' }}>
+        {label}
+      </label>
       <textarea
         id={id}
         name={id}
@@ -203,7 +211,13 @@ function FormTextArea({ label, id, rows = 5, required = false, value, onChange }
         required={required}
         value={value}
         onChange={onChange}
-        style={{ width: '100%', padding: 10, marginBottom: 20, border: 'none', borderRadius: 5 }}
+        style={{
+          width: '100%',
+          padding: 10,
+          marginBottom: 20,
+          border: 'none',
+          borderRadius: 5,
+        }}
       />
     </div>
   );
