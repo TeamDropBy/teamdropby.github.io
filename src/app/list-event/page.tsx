@@ -14,25 +14,15 @@ export default function ListEventPage() {
 
 
   useEffect(() => {
-    const checkLogin = async () => {
-      const res = await fetch('/api/session');
-      const session = await res.json();
-      if (!session.user) {
-        router.push('/sign-in');
-      } else {
-        setUserId(session.user.id);
-        loadUserEvents(session.user.id);
-      }
-    };
-    checkLogin();
-  }, [router]);
+   loadUserEvents(); // just load all events, not user-specific
+}, []);
 
-  const loadUserEvents = async (uid: string) => {
-    const res = await fetch('/api/events');
-    const data = await res.json();
-    const userEvents = data.filter((event: any) => event.user_id === uid);
-    setEvents(userEvents);
-  };
+  const loadUserEvents = async () => {
+  const res = await fetch('/api/events');
+  const data = await res.json();
+  setEvents(data); // load all events
+};
+
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -41,13 +31,6 @@ export default function ListEventPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
   e.preventDefault();
-
-  const user_id = userId;
-
-  if (!user_id) {
-    alert('You must be signed in to list an event.');
-    return;
-  }
 
   if (!formData.title || !formData.details || !formData.contact) {
     alert('Please fill in all fields before submitting.');
@@ -58,13 +41,13 @@ export default function ListEventPage() {
     const res = await fetch('/api/events', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ ...formData, user_id }),
+      body: JSON.stringify(formData), // No user_id
     });
 
     if (res.ok) {
       alert('Event created successfully!');
       setFormData({ title: '', details: '', contact: '' });
-      loadUserEvents(user_id); // Reload events to show the new one
+      loadUserEvents(); // Reload events
     } else {
       const error = await res.json();
       alert('Error: ' + (error.error || error.message));
@@ -75,6 +58,7 @@ export default function ListEventPage() {
     alert('Something went wrong.');
   }
 };
+
 
   const handleDelete = async (id: number) => {
     const confirm = window.confirm('Are you sure you want to delete this event?');

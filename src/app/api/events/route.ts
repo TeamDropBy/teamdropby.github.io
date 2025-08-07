@@ -7,7 +7,7 @@ const supabaseUrl = 'https://aazjsdrvpiofshwyqjrq.supabase.co';
 const supabaseKey = process.env.SUPABASE_KEY!;
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-// ✅ GET: Fetch all events
+// GET: Fetch all events
 export async function GET() {
   const { data, error } = await supabase
     .from('Event')
