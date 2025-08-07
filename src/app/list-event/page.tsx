@@ -9,6 +9,7 @@ export default function ListEventPage() {
     title: '',
     details: '',
     contact: '',
+    user_id: '',
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -33,7 +34,7 @@ export default function ListEventPage() {
 
       if (res.ok) {
         alert('Event created successfully!');
-        setFormData({ title: '', details: '', contact: '' });
+        setFormData({ title: '', details: '', contact: '', user_id: '' });
       } else {
         const error = await res.json();
         alert('Error: ' + (error.error || error.message));
