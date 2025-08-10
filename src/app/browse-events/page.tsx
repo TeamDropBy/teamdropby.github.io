@@ -17,60 +17,58 @@ type Event = {
 export default function BrowseEventsPage() {
   const [events, setEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState(true);
-  const [rsvpStatus, setRsvpStatus] = useState<number[]>([]); // To track RSVPed events
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL as string;
-  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY as string;
-  const supabase = createClient(supabaseUrl, supabaseAnonKey); // Create Supabase client instance
+  const [rsvpStatus, setRsvpStatus] = useState<number[]>([]);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    // Fetch events from Supabase
+    // Fetch events from your API endpoint
     const fetchEvents = async () => {
-      const { data, error } = await supabase.from('events').select('*');
-      if (error) {
-        console.error('Error fetching events:', error);
-        setEvents([]);
-      } else {
+      try {
+        const response = await fetch('/api/events');
+        if (!response.ok) {
+          throw new Error(`Failed to fetch events: ${response.status}`);
+        }
+        const data = await response.json();
         setEvents(data);
+      } catch (error) {
+        console.error('Error fetching events:', error);
+        setError('Failed to load events');
+        setEvents([]);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     };
 
     fetchEvents();
-  }, [supabase]);
+  }, []);
 
   const handleRSVP = async (eventId: number) => {
-    const { data: session, error: sessionError } = await supabase.auth.getSession();
-    if (sessionError || !session) {
-      console.error('User not authenticated:', sessionError);
+    // Check if user is signed in
+    const userEmail = localStorage.getItem('user_email');
+    if (!userEmail) {
+      alert('Please sign in to RSVP for events');
       return;
     }
 
-    const userId = session.session?.user.id;
-
-    // Check if the user has already RSVP'd to the event
-    const { data: existingRSVP, error: checkError } = await supabase
-      .from('rsvps')
-      .select('*')
-      .eq('user_id', userId)
-      .eq('event_id', eventId)
-      .single();
-
-    if (existingRSVP) {
-      console.log('User already RSVP\'d to this event');
+    // Check if already RSVP'd
+    if (rsvpStatus.includes(eventId)) {
       return;
     }
 
-    // Save the RSVP to Supabase
-    const { error: insertError } = await supabase
-      .from('rsvps')
-      .insert([{ user_id: userId, event_id: eventId }]);
-
-    if (insertError) {
-      console.error('Failed to RSVP:', insertError);
-    } else {
-      setRsvpStatus([...rsvpStatus, eventId]); // Update RSVP status
-    }
+    // For now, just track RSVPs locally
+    // You can implement server-side RSVP tracking later
+    setRsvpStatus([...rsvpStatus, eventId]);
+    alert('RSVP successful!');
   };
+
+  if (error) {
+    return (
+      <div style={{ padding: '20px', textAlign: 'center', color: 'red' }}>
+        <h2>Error: {error}</h2>
+        <button onClick={() => window.location.reload()}>Retry</button>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -139,18 +137,19 @@ export default function BrowseEventsPage() {
                 )}
                 <button
                   onClick={() => handleRSVP(event.id)}
-                  disabled={rsvpStatus.includes(event.id)} // Disable if already RSVPed
+                  disabled={rsvpStatus.includes(event.id)}
                   style={{
-                    backgroundColor: '#007bff',
+                    backgroundColor: rsvpStatus.includes(event.id) ? '#28a745' : '#007bff',
                     color: 'white',
                     padding: '8px 16px',
                     border: 'none',
                     borderRadius: '5px',
-                    cursor: 'pointer',
+                    cursor: rsvpStatus.includes(event.id) ? 'default' : 'pointer',
                     marginTop: '10px',
+                    opacity: rsvpStatus.includes(event.id) ? 0.7 : 1,
                   }}
                 >
-                  {rsvpStatus.includes(event.id) ? "'RSVP'd" : 'RSVP'}
+                  {rsvpStatus.includes(event.id) ? "RSVP'd ✓" : 'RSVP'}
                 </button>
               </div>
             ))
