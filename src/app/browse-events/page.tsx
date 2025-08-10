@@ -150,7 +150,7 @@ export default function BrowseEventsPage() {
                     marginTop: '10px',
                   }}
                 >
-                  {rsvpStatus.includes(event.id) ? "RSVP'd" : 'RSVP'}
+                  {rsvpStatus.includes(event.id) ? "'RSVP'd" : 'RSVP'}
                 </button>
               </div>
             ))
