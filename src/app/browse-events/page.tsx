@@ -4,7 +4,7 @@ import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
 import UserMenu from '@/app/components/UserMenu';
-
+import { createClient } from '@supabase/supabase-js';
 
 type Event = {
   id: number;
@@ -17,25 +17,60 @@ type Event = {
 export default function BrowseEventsPage() {
   const [events, setEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState(true);
+  const [rsvpStatus, setRsvpStatus] = useState<number[]>([]); // To track RSVPed events
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL as string;
+  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY as string;
+  const supabase = createClient(supabaseUrl, supabaseAnonKey); // Create Supabase client instance
 
   useEffect(() => {
-    fetch('/api/events')
-      .then((res) => res.json())
-      .then((data) => {
-        if (Array.isArray(data)) {
-          setEvents(data);
-        } else {
-          console.error('Unexpected response:', data);
-          setEvents([]);
-        }
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.error('Fetch error:', err);
+    // Fetch events from Supabase
+    const fetchEvents = async () => {
+      const { data, error } = await supabase.from('events').select('*');
+      if (error) {
+        console.error('Error fetching events:', error);
         setEvents([]);
-        setLoading(false);
-      });
-  }, []);
+      } else {
+        setEvents(data);
+      }
+      setLoading(false);
+    };
+
+    fetchEvents();
+  }, [supabase]);
+
+  const handleRSVP = async (eventId: number) => {
+    const { data: session, error: sessionError } = await supabase.auth.getSession();
+    if (sessionError || !session) {
+      console.error('User not authenticated:', sessionError);
+      return;
+    }
+
+    const userId = session.session?.user.id;
+
+    // Check if the user has already RSVP'd to the event
+    const { data: existingRSVP, error: checkError } = await supabase
+      .from('rsvps')
+      .select('*')
+      .eq('user_id', userId)
+      .eq('event_id', eventId)
+      .single();
+
+    if (existingRSVP) {
+      console.log('User already RSVP\'d to this event');
+      return;
+    }
+
+    // Save the RSVP to Supabase
+    const { error: insertError } = await supabase
+      .from('rsvps')
+      .insert([{ user_id: userId, event_id: eventId }]);
+
+    if (insertError) {
+      console.error('Failed to RSVP:', insertError);
+    } else {
+      setRsvpStatus([...rsvpStatus, eventId]); // Update RSVP status
+    }
+  };
 
   return (
     <>
@@ -102,6 +137,21 @@ export default function BrowseEventsPage() {
                     Listed on: {new Date(event.createdAt).toLocaleDateString()}
                   </p>
                 )}
+                <button
+                  onClick={() => handleRSVP(event.id)}
+                  disabled={rsvpStatus.includes(event.id)} // Disable if already RSVPed
+                  style={{
+                    backgroundColor: '#007bff',
+                    color: 'white',
+                    padding: '8px 16px',
+                    border: 'none',
+                    borderRadius: '5px',
+                    cursor: 'pointer',
+                    marginTop: '10px',
+                  }}
+                >
+                  {rsvpStatus.includes(event.id) ? "RSVP'd" : 'RSVP'}
+                </button>
               </div>
             ))
           )}
