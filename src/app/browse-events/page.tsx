@@ -21,17 +21,28 @@ export default function BrowseEventsPage() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    // Fetch events from your API endpoint
-    const fetchEvents = async () => {
+    const fetchData = async () => {
       try {
-        const response = await fetch('/api/events');
-        if (!response.ok) {
-          throw new Error(`Failed to fetch events: ${response.status}`);
+        // Fetch events
+        const eventsResponse = await fetch('/api/events');
+        if (!eventsResponse.ok) {
+          throw new Error(`Failed to fetch events: ${eventsResponse.status}`);
         }
-        const data = await response.json();
-        setEvents(data);
+        const eventsData = await eventsResponse.json();
+        setEvents(eventsData);
+
+        // Fetch user's RSVPs if signed in
+        const userId = localStorage.getItem('user_id');
+        if (userId) {
+          const rsvpResponse = await fetch(`/api/rsvp?userId=${userId}`);
+          if (rsvpResponse.ok) {
+            const rsvpData = await rsvpResponse.json();
+            const rsvpEventIds = rsvpData.map((rsvp: any) => rsvp.event_id);
+            setRsvpStatus(rsvpEventIds);
+          }
+        }
       } catch (error) {
-        console.error('Error fetching events:', error);
+        console.error('Error fetching data:', error);
         setError('Failed to load events');
         setEvents([]);
       } finally {
@@ -39,13 +50,15 @@ export default function BrowseEventsPage() {
       }
     };
 
-    fetchEvents();
+    fetchData();
   }, []);
 
   const handleRSVP = async (eventId: number) => {
     // Check if user is signed in
+    const userId = localStorage.getItem('user_id');
     const userEmail = localStorage.getItem('user_email');
-    if (!userEmail) {
+    
+    if (!userId || !userEmail) {
       alert('Please sign in to RSVP for events');
       return;
     }
@@ -55,10 +68,24 @@ export default function BrowseEventsPage() {
       return;
     }
 
-    // For now, just track RSVPs locally
-    // You can implement server-side RSVP tracking later
-    setRsvpStatus([...rsvpStatus, eventId]);
-    alert('RSVP successful!');
+    try {
+      const response = await fetch('/api/rsvp', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId, eventId }),
+      });
+
+      if (response.ok) {
+        setRsvpStatus([...rsvpStatus, eventId]);
+        alert('RSVP successful!');
+      } else {
+        const error = await response.json();
+        alert(error.error || 'Failed to RSVP');
+      }
+    } catch (error) {
+      console.error('Error creating RSVP:', error);
+      alert('Failed to RSVP');
+    }
   };
 
   if (error) {
