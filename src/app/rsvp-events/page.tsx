@@ -6,10 +6,6 @@ import Link from 'next/link';
 import UserMenu from '@/app/components/UserMenu';
 import { createClient } from '@supabase/supabase-js';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL as string;
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY as string;
-const supabase = createClient(supabaseUrl, supabaseAnonKey);
-
 type Event = {
   id: number;
   title: string;
@@ -18,57 +14,79 @@ type Event = {
   createdAt?: string;
 };
 
+type RSVPData = {
+  id: number;
+  event_id: number;
+  Event: Event;
+};
+
 export default function RSVPEventsPage() {
   const [rsvpedEvents, setRsvpedEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    // Fetch the user's RSVPed events from Supabase
     const fetchRSVPEvents = async () => {
-      const { data: session, error: sessionError } = await supabase.auth.getSession();
-      
-      if (sessionError || !session) {
-        console.error('Error fetching session:', sessionError);
-        return;
+      try {
+        const userId = localStorage.getItem('user_id');
+        
+        if (!userId) {
+          setError('Please sign in to view your RSVPs');
+          setLoading(false);
+          return;
+        }
+
+        const response = await fetch(`/api/rsvp?userId=${userId}`);
+        
+        if (!response.ok) {
+          throw new Error('Failed to fetch RSVPs');
+        }
+
+        const rsvpData: RSVPData[] = await response.json();
+        
+        // Extract events from RSVP data
+        const events = rsvpData.map(rsvp => ({
+          id: rsvp.Event.id,
+          title: rsvp.Event.title,
+          details: rsvp.Event.details,
+          contact: rsvp.Event.contact,
+          createdAt: rsvp.Event.createdAt,
+        }));
+
+        setRsvpedEvents(events);
+      } catch (error) {
+        console.error('Error fetching RSVPs:', error);
+        setError('Failed to load your RSVPs');
+      } finally {
+        setLoading(false);
       }
-
-      const userId = session.session?.user?.id;
-      if (!userId) {
-        console.error('No user found in session');
-        return;
-      }
-
-      // Query to get RSVPed events for the user
-      const { data: rsvpedEvents, error: fetchError } = await supabase
-        .from('rsvps')
-        .select('event_id, events(id, title, details, contact, created_at)')
-        .eq('user_id', userId);
-
-      if (fetchError || !rsvpedEvents) {
-        console.error('Error fetching RSVPed events:', fetchError);
-        setRsvpedEvents([]);
-      } else {
-        setRsvpedEvents(
-          rsvpedEvents
-            .filter((rsvp) => rsvp.events && (Array.isArray(rsvp.events) ? rsvp.events.length > 0 : true))
-            .map((rsvp) => {
-              const eventObj = Array.isArray(rsvp.events) ? rsvp.events[0] : rsvp.events;
-              return {
-                id: eventObj.id,
-                title: eventObj.title,
-                details: eventObj.details,
-                contact: eventObj.contact,
-                createdAt: eventObj.created_at,
-              };
-            })
-        );
-      }
-
-      setLoading(false);
     };
 
     fetchRSVPEvents();
   }, []);
+
+  const handleCancelRSVP = async (eventId: number) => {
+    const userId = localStorage.getItem('user_id');
+    if (!userId) return;
+
+    try {
+      const response = await fetch(`/api/rsvp?userId=${userId}&eventId=${eventId}`, {
+        method: 'DELETE',
+      });
+
+      if (response.ok) {
+        // Remove the event from the list
+        setRsvpedEvents(rsvpedEvents.filter(event => event.id !== eventId));
+        alert('RSVP cancelled successfully');
+      } else {
+        const error = await response.json();
+        alert(error.error || 'Failed to cancel RSVP');
+      }
+    } catch (error) {
+      console.error('Error cancelling RSVP:', error);
+      alert('Failed to cancel RSVP');
+    }
+  };
 
   return (
     <>
@@ -110,10 +128,55 @@ export default function RSVPEventsPage() {
 
         <div style={{ padding: '60px 20px', textAlign: 'center' }}>
           <h2 style={{ fontSize: 36, marginBottom: 20 }}>Your RSVP'd Events</h2>
+          
+          {error && (
+            <div style={{ 
+              backgroundColor: 'rgba(255, 0, 0, 0.2)', 
+              border: '1px solid red', 
+              borderRadius: '5px', 
+              padding: '10px', 
+              marginBottom: '20px',
+              maxWidth: '600px',
+              marginInline: 'auto'
+            }}>
+              <p style={{ color: '#ff6b6b' }}>{error}</p>
+              {error.includes('sign in') && (
+                <Link href="/sign-in">
+                  <button style={{
+                    backgroundColor: '#007bff',
+                    color: 'white',
+                    padding: '8px 16px',
+                    border: 'none',
+                    borderRadius: '5px',
+                    cursor: 'pointer',
+                    marginTop: '10px'
+                  }}>
+                    Sign In
+                  </button>
+                </Link>
+              )}
+            </div>
+          )}
+
           {loading ? (
             <p style={{ fontSize: 18 }}>Loading your RSVP'd events...</p>
-          ) : rsvpedEvents.length === 0 ? (
-            <p style={{ fontSize: 18 }}>You haven’t RSVP'd to any events yet!</p>
+          ) : rsvpedEvents.length === 0 && !error ? (
+            <div>
+              <p style={{ fontSize: 18, marginBottom: 20 }}>You haven't RSVP'd to any events yet!</p>
+              <Link href="/browse-events">
+                <button style={{
+                  backgroundColor: '#007bff',
+                  color: 'white',
+                  padding: '12px 24px',
+                  border: 'none',
+                  borderRadius: '5px',
+                  cursor: 'pointer',
+                  fontSize: '16px'
+                }}>
+                  Browse Events
+                </button>
+              </Link>
+            </div>
           ) : (
             rsvpedEvents.map((event) => (
               <div
@@ -136,6 +199,20 @@ export default function RSVPEventsPage() {
                     Listed on: {new Date(event.createdAt).toLocaleDateString()}
                   </p>
                 )}
+                <button
+                  onClick={() => handleCancelRSVP(event.id)}
+                  style={{
+                    backgroundColor: '#dc3545',
+                    color: 'white',
+                    padding: '8px 16px',
+                    border: 'none',
+                    borderRadius: '5px',
+                    cursor: 'pointer',
+                    marginTop: '10px',
+                  }}
+                >
+                  Cancel RSVP
+                </button>
               </div>
             ))
           )}
