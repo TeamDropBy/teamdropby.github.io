@@ -3,6 +3,8 @@ import Head from 'next/head';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useState } from 'react';
+import UserMenu from '@/app/components/UserMenu';
+
 
 export default function SignInPage() {
   const [email, setEmail] = useState('');
@@ -12,23 +14,53 @@ export default function SignInPage() {
   const [signUpPassword, setSignUpPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
-  const handleSignIn = (e: React.FormEvent) => {
-    e.preventDefault();
-    alert(`Signed in with ${email}`);
-  };
+  // Sign In
+const handleSignIn = async (e: React.FormEvent) => {
+  e.preventDefault();
+  const res = await fetch('/api/auth/sign-in', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email, password }),
+  });
+  const data = await res.json();
 
-  const handleSignUp = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (signUpPassword !== confirmPassword) {
-      alert('Passwords do not match!');
-      return;
-    }
-    alert(`Account created for ${signUpEmail}`);
-    setSignUpEmail('');
-    setSignUpPassword('');
-    setConfirmPassword('');
-    setShowSignUp(false);
-  };
+  if (!res.ok) return alert(data.error || 'Sign-in failed.');
+
+  if (data?.user?.id) localStorage.setItem('user_id', data.user.id);
+  if (data?.user?.email) localStorage.setItem('user_email', data.user.email); // ← add this
+  if (data?.session?.access_token) localStorage.setItem('access_token', data.session.access_token);
+
+  alert(data.message || 'Signed in successfully.');
+  window.location.href = '/';
+};
+
+// Sign Up
+const handleSignUp = async (e: React.FormEvent) => {
+  e.preventDefault();
+  if (signUpPassword !== confirmPassword) return alert('Passwords do not match!');
+  const res = await fetch('/api/auth/sign-up', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email: signUpEmail, password: signUpPassword }),
+  });
+  const data = await res.json();
+
+  if (!res.ok) return alert(data.error || 'Account creation failed.');
+
+  if (data?.user?.id) localStorage.setItem('user_id', data.user.id);
+  if (data?.user?.email) localStorage.setItem('user_email', data.user.email); // ← add this
+  if (data?.session?.access_token) localStorage.setItem('access_token', data.session.access_token);
+
+  alert(data.message || 'Account created.');
+  if (!data.needsEmailConfirm) {
+    window.location.href = '/';
+  } else {
+    setSignUpEmail(''); setSignUpPassword(''); setConfirmPassword(''); setShowSignUp(false);
+  }
+};
+
+
+
 
   return (
     <>
@@ -62,7 +94,7 @@ export default function SignInPage() {
             <NavLink href="/browse-events">Browse Events</NavLink>
             <NavLink href="/list-event">List an Event</NavLink>
             <NavLink href="/rsvp-events">Events RSVP'd For</NavLink>
-            <NavLink href="/sign-in" active>Sign In</NavLink>
+            <UserMenu />
           </div>
         </nav>
 

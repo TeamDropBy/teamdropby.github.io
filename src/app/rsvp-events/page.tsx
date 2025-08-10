@@ -2,6 +2,8 @@
 import Image from 'next/image';
 import Head from 'next/head';
 import Link from 'next/link';
+import UserMenu from '@/app/components/UserMenu';
+
 
 export default function RSVPEventsPage() {
   return (
@@ -38,7 +40,7 @@ export default function RSVPEventsPage() {
             <NavLink href="/rsvp-events" active>
               Events RSVP'd For
             </NavLink>
-            <NavLink href="/sign-in">Sign In</NavLink>
+            <UserMenu />
           </div>
         </nav>
 

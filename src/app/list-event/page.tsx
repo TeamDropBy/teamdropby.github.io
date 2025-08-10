@@ -3,6 +3,8 @@ import Image from 'next/image';
 import Head from 'next/head';
 import { useState } from 'react';
 import Link from 'next/link';
+import UserMenu from '@/app/components/UserMenu';
+
 
 export default function ListEventPage() {
   const [formData, setFormData] = useState({
@@ -76,7 +78,7 @@ export default function ListEventPage() {
             <NavLink href="/browse-events">Browse Events</NavLink>
             <NavLink href="/list-event" active>List an Event</NavLink>
             <NavLink href="/rsvp-events">Events RSVP'd For</NavLink>
-            <NavLink href="/sign-in">Sign In</NavLink>
+            <UserMenu />
           </div>
         </nav>
 
