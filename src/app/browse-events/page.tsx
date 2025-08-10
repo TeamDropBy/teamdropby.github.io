@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react';
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
+import UserMenu from '@/app/components/UserMenu';
+
 
 type Event = {
   id: number;
@@ -67,7 +69,7 @@ export default function BrowseEventsPage() {
             <NavLink href="/browse-events" active>Browse Events</NavLink>
             <NavLink href="/list-event">List an Event</NavLink>
             <NavLink href="/rsvp-events">Events RSVP'd For</NavLink>
-            <NavLink href="/sign-in">Sign In</NavLink>
+            <UserMenu />
           </div>
         </nav>
 

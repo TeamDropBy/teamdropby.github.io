@@ -3,6 +3,7 @@ import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import UserMenu from '@/app/components/UserMenu';
 
 export default function HomePage() {
   return (
@@ -37,7 +38,7 @@ export default function HomePage() {
             <NavLink href="/browse-events">Browse Events</NavLink>
             <NavLink href="/list-event">List an Event</NavLink>
             <NavLink href="/rsvp-events">Events RSVP'd For</NavLink>
-            <NavLink href="/sign-in">Sign In</NavLink>
+            <UserMenu />
           </div>
         </nav>
 
@@ -53,9 +54,9 @@ export default function HomePage() {
         >
           <h1 style={{ fontSize: 48, marginBottom: 30 }}>Welcome to DropBy</h1>
           <div>
-            <InfoButton href="/pages/what-is-dropby">What is DropBy?</InfoButton>
-            <InfoButton href="/pages/how-it-works">How Does DropBy Work?</InfoButton>
-            <InfoButton href="/pages/why-use-dropby">Why is DropBy Useful?</InfoButton>
+            <InfoButton href="/what-is-dropby">What is DropBy?</InfoButton>
+            <InfoButton href="/how-it-works">How Does DropBy Work?</InfoButton>
+            <InfoButton href="/why-use-dropby">Why is DropBy Useful?</InfoButton>
           </div>
         </div>
       </div>
