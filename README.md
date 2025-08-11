@@ -1,7 +1,8 @@
 
 This repository contains the documentation and homepage source for the **DropBy** project.
 - See [index.md](index.md) for the main content
-- Visit the live website at [https://teamdropby.github.io](https://teamdropby.github.io)
+- Visit the homepage for our website at [https://teamdropby.github.io](https://teamdropby.github.io)
+- Visit the Live Website on Vercel at [https://teamdropbygithubio-kappa.vercel.app/]
 
 
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
