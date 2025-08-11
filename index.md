@@ -106,8 +106,9 @@ of our landing page where it says to sign in, when you are on that page you will
 a sign in dialog, look under and you will see a create an account link, this will be
 for people who do not have an account yet.
 <img src="public/HomePage-SignIn.jpg" alt="Sign-In">
-<img src="public/CreateAnAccount.jpg" alt="Create an account">
 <img src="public/Sign-In-CreateAnAccount.jpg" alt="Sign in Create-an-Account">
+<img src="public/CreateAnAccount.jpg" alt="Create an account">
+
 
 -Once signed in you will see your username/email in the top right with the option to
 sign out, and you have access to start RSVP'ing for our events that are listed, or
