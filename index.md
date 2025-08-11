@@ -55,6 +55,7 @@
 ## Deployment
 
 [Visit DropBy on Vercel](https://teamdropby-github-io-aiyy.vercel.app/) 
+[Visit DropBy on Vercel](https://teamdropbygithubio-kappa.vercel.app/)
 The live DropBy application is hosted on Vercel:  
 ![Vercel](public/DropBy_LandingPage_Screenshot.jpg)
 *Current home page layout for the deployed site.*
