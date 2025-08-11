@@ -65,7 +65,8 @@ The live DropBy application is hosted on Vercel:
 
 - 🔗 [GitHub Organization](https://github.com/teamdropby)
 - ✅ [Milestone 1 Project Board](https://github.com/orgs/teamdropby/projects/1)
-- ⏭️ [Milestone 2 Project Board](https://github.com/orgs/teamdropby/projects/3)
+- ✅ [Milestone 2 Project Board](https://github.com/orgs/teamdropby/projects/3)
+- ⏭️ [Milestone 3 Project Board](https://github.com/orgs/TeamDropBy/projects/4)
 
 ---
 
