@@ -98,7 +98,7 @@ The live DropBy application is hosted on Vercel:
 
 -First when landing on our websites homepage you will be greeted with some FAQ's,
 you can either click on the FAQ's to learn more, or you can create an account.  
-<img src="HomePage.jpg" alt="DropBy Homepage">
+<img src="HomePage.png" alt="DropBy Homepage">
 
 
 -To create an account you will have to navigate to our sign in page in the top right
