@@ -125,6 +125,29 @@ page in the nav bar as well.
 
 ---
 
+## User Feedback
+
+### Review 1: “Finally, an app that’s not overwhelming.”
+I love how clean and simple DropBy is. I just want to find out what’s happening near me without scrolling through endless posts or ads — and this does exactly that. RSVPing is fast, and I’ve actually been discovering more community events than ever.
+
+### Review 2: “DropBy made hosting my first event so easy.”
+I’m not tech-savvy, but creating an event on DropBy was super straightforward. I added a few key details, and that’s all it needed. People started RSVP’ing quickly, and I didn’t have to deal with clunky tools or long setup steps. Highly recommend it for anyone organizing local get-togethers.
+
+### Review 3: “This is how local events should work.”
+DropBy cuts out the noise. Whether it’s a pop-up market or a live poetry night, I can actually find events I care about without being bombarded by unrelated content. It’s clean, focused, and built for people who want to be part of their community.
+
+### Review 4: “It’s fast, it’s useful, and it just works.”
+I don’t have time to dig through social media to find cool events. DropBy shows me what’s happening, where, and when — nothing more, nothing less. I love that. The RSVP system is clear and quick, and I’ve already gone to three events I wouldn’t have known about otherwise.
+
+### Review 5: “Minimal design, maximum value.”
+What I appreciate most about DropBy is its simplicity. It doesn’t try to be everything. It just helps you find and attend events — and that’s refreshing. No annoying pop-ups, no complicated feeds. Just useful info, presented well. It’s now one of my go-to apps.
+
+### Review 6: “It’s not bad at all!”
+It does its purpose and makes it simple instead of doing too much.
+
+
+---
+
 This project is part of the ICS 314 Software Engineering Final Project at UH Mānoa, Summer 2025.
 
 Published with GitHub Pages.
