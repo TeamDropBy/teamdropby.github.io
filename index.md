@@ -105,16 +105,22 @@ you can either click on the FAQ's to learn more, or you can create an account.
 of our landing page where it says to sign in, when you are on that page you will see
 a sign in dialog, look under and you will see a create an account link, this will be
 for people who do not have an account yet.
+<img src="public/HomePage-SignIn.jpg" alt="Sign-In">
+<img src="public/CreateAnAccount.jpg" alt="Create an account">
+<img src="public/Sign-In-CreateAnAccount.jpg" alt="Sign in Create-an-Account">
 
 -Once signed in you will see your username/email in the top right with the option to
 sign out, and you have access to start RSVP'ing for our events that are listed, or
 you are even welcome to create your own events on our List an Event page by filling out
 the required information on that page. To RSVP for an Event you will navigate to the
 Browse Events page and click on the blue RSVP button on the event you want to attend.
+<img src="public/Signed_In_example.jpg" alt="Sign-In Exmaple">
+<img src="public/Browse_Events.jpg" alt="Browse Events">
+<img src="public/List_Events.jpg" alt="List_Events">
 
--All events that you have RSVP'd for you mwill be able to see on our Events RSVP'd for
+-All events that you have RSVP'd for you will be able to see on our Events RSVP'd for
 page in the nav bar as well.
-
+<img src="public/Events_RSVP'd.jpg" alt="RSVP'd Events">
 
 
 ---
